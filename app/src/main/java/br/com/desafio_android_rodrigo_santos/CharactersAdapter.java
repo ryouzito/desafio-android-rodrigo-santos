@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class CharactersAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tvCharacterName;
+        ImageView ivCharacterImage;
     }
 
     @Override
@@ -50,6 +53,7 @@ public class CharactersAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.character, null);
             holder = new ViewHolder();
             holder.tvCharacterName = convertView.findViewById(R.id.textViewPersonagem);
+            holder.ivCharacterImage = convertView.findViewById(R.id.imageViewPersonagem);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -57,6 +61,10 @@ public class CharactersAdapter extends BaseAdapter {
 
         MarvelCharacter currentRowItem = (MarvelCharacter) getItem(position);
         holder.tvCharacterName.setText(currentRowItem.getsNome());
+        Picasso.get()
+                .load(alMarvelCharacters.get(position).getsImagePath())
+                .error(R.drawable.marvel_logo)
+                .into(holder.ivCharacterImage);
         String nome = alMarvelCharacters.get(position).getsNome();
         holder.tvCharacterName.setText(nome);
 
