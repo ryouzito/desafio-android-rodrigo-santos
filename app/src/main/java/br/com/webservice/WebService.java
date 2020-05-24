@@ -6,29 +6,27 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class WebService {
-    static String url = "https://gateway.marvel.com:443/v1/public";
+    private static String url = "https://gateway.marvel.com:443/v1/public";
 
-    public static Response getListaCharacters() throws IOException {
+    public static Response getListaCharacters(String timestamp, String hash) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(url + "") //url omitida para que seja feita criptografia depois
+                .url(url + "/characters?ts=" + timestamp + "&apikey=306eb231e4603390b106800cff2e5b54&hash=" + hash)
                 .method("GET", null)
                 .build();
-        Response response = client.newCall(request).execute();
 
-        return response;
+        return client.newCall(request).execute();
     }
 
-    public static Response getCharacter() throws IOException {
+    public static Response getCharacter(String timestamp, String hash) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(url + "") //url omitida para que seja feita criptografia depois
+                .url(url + "/characters/1009220?ts=" + timestamp + "&apikey=306eb231e4603390b106800cff2e5b54&hash=" + hash)
                 .method("GET", null)
                 .build();
-        Response response = client.newCall(request).execute();
 
-        return response;
+        return client.newCall(request).execute();
     }
 }
