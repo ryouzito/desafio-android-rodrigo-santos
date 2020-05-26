@@ -1,13 +1,13 @@
-package br.com.desafio_android_rodrigo_santos;
+package br.com.desafio_android_rodrigo_santos.model;
 
-class MarvelCharacter {
+public class MarvelCharacter {
 
     private int id;
     private String sNome;
     private String sDescricao;
     private String sImagePath;
 
-    MarvelCharacter (int id, String sNome, String sDescricao, String sImagePath) {
+    public MarvelCharacter(int id, String sNome, String sDescricao, String sImagePath) {
         super();
         this.id = id;
         this.sNome = sNome;
@@ -19,12 +19,8 @@ class MarvelCharacter {
         return id;
     }
 
-    String getsNome() {
+    public String getsNome() {
         return sNome;
-    }
-
-    public void setsNome(String sNome) {
-        this.sNome = sNome;
     }
 
     public String getsDescricao() {

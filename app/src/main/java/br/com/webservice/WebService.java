@@ -18,15 +18,4 @@ public class WebService {
 
         return client.newCall(request).execute();
     }
-
-    public static Response getCharacter(String timestamp, String hash) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(url + "/characters/1009220?ts=" + timestamp + "&apikey=306eb231e4603390b106800cff2e5b54&hash=" + hash)
-                .method("GET", null)
-                .build();
-
-        return client.newCall(request).execute();
-    }
 }

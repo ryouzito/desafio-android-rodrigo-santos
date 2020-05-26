@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">desafio-android-rodrigo-santos</string>
+    <string name="app_name">Personagens Marvel</string>
+    <string name="activity_personagem">Personagem</string>
     <string name="nome_do_personagem">Nome</string>
     <string name="imagem_do_personagem">Imagem do personagem</string>
+    <string name="descricao_do_personagem">Descrição do personagem</string>
+    <string name="sem_descricao">Sem descrição.</string>
 </resources>

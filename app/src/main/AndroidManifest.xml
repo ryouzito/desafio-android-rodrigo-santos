@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.desafio_android_rodrigo_santos">
+    package="br.com.desafio_android_rodrigo_santos" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityCharacters"></activity>
-        <activity android:name=".MainActivity">
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".view.CharacterDetails"
+            android:label="@string/activity_personagem" >
+        </activity>
+        <activity android:name=".view.ActivityCharacters" />
+        <activity android:name=".view.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

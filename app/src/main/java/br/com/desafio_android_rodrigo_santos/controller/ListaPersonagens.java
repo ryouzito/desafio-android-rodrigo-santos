@@ -1,11 +1,8 @@
-package br.com.desafio_android_rodrigo_santos;
-
-import androidx.appcompat.app.AppCompatActivity;
+package br.com.desafio_android_rodrigo_santos.controller;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Base64;
 import android.widget.GridView;
 
@@ -23,34 +20,26 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import br.com.desafio_android_rodrigo_santos.BuildConfig;
+import br.com.desafio_android_rodrigo_santos.model.MarvelCharacter;
 import br.com.webservice.WebService;
 import okhttp3.Response;
 
-public class ActivityCharacters extends AppCompatActivity {
+public class ListaPersonagens {
 
-    Context context;
-    String timestamp = "";
-    GridView gvListaPersonagens;
-    ArrayList<MarvelCharacter> alMarvelCharacters = new ArrayList<>();
+    private Context context;
+    private String timestamp = "";
+    private ArrayList<MarvelCharacter> alMarvelCharacters = new ArrayList<>();
+    private GridView gvListaPersonagens;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_characters);
-
-        context = this;
-        exibePersonagens();
-    }
-
-    public void exibePersonagens() {
-        gvListaPersonagens = findViewById(R.id.gridViewListaPersonagens);
-
-        new exibeListaPersonagens().execute();
+    public void exibeListaPersonagens(Context context, GridView gvListaPersonagens) {
+        this.context = context;
+        this.gvListaPersonagens = gvListaPersonagens;
+        new ListaPersonagensAsyncTask().execute();
     }
 
     //gera os parametros passados na url
-    public String geraParametrosUrl() {
-        String parametrosUrl = "";
+    private String geraParametrosUrl() {
 
         //gera timestamp
         String dataBrasil = "dd-MM-yyyy-hh-mm-ss";
@@ -64,7 +53,7 @@ public class ActivityCharacters extends AppCompatActivity {
 
         //cria o hash que a api espera receber
         try {
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("MD5");
             digest.update(hash.getBytes());
             byte[] messageDigest = digest.digest();
 
@@ -85,7 +74,7 @@ public class ActivityCharacters extends AppCompatActivity {
 
     //asynctask para listagem geral de personagens
     @SuppressLint("StaticFieldLeak")
-    class exibeListaPersonagens extends AsyncTask<Void, Void, Response> {
+    class ListaPersonagensAsyncTask extends AsyncTask<Void, Void, Response> {
         Response response;
         int idDoPersonagem;
         String nomeDoPersonagem = "";
@@ -95,11 +84,13 @@ public class ActivityCharacters extends AppCompatActivity {
         @Override
         protected Response doInBackground(Void... voids) {
             try {
+                //chama a api e varre o json ate encontrar o campo results
                 String hash = geraParametrosUrl();
                 response = WebService.getListaCharacters(timestamp, hash);
                 String dados = Objects.requireNonNull(response.body()).string();
                 JSONArray jsonArray = new JSONObject(dados).getJSONObject("data").getJSONArray("results");
 
+                //para cada posicao no campo results, cria um objeto MarvelCharater e o adiciona a uma lista
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
@@ -121,42 +112,7 @@ public class ActivityCharacters extends AppCompatActivity {
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
 
-            gvListaPersonagens.setAdapter(new CharactersAdapter(context, alMarvelCharacters));
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class exibePersonagem extends AsyncTask<Void, Void, Response> {
-        Response response;
-        int idDoPersonagem;
-        String nomeDoPersonagem = "";
-        String descricaoDoPersonagem = "";
-
-        @Override
-        protected Response doInBackground(Void... voids) {
-            try {
-                response = WebService.getCharacter(timestamp, geraParametrosUrl());
-                String dados = Objects.requireNonNull(response.body()).string();
-                JSONArray jsonArray = new JSONObject(dados).getJSONObject("data").getJSONArray("results");
-                JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-                idDoPersonagem = jsonObject.getInt("id");
-                nomeDoPersonagem = jsonObject.getString("name");
-                descricaoDoPersonagem = jsonObject.getString("description");
-
-                alMarvelCharacters.add(new MarvelCharacter(idDoPersonagem, nomeDoPersonagem, descricaoDoPersonagem, ""));
-
-                return response;
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Response response) {
-            super.onPostExecute(response);
-
+            /* chama o adapter que trata o gridview, passando o conteudo da lista */
             gvListaPersonagens.setAdapter(new CharactersAdapter(context, alMarvelCharacters));
         }
     }
