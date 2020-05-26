@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">Personagens Marvel</string>
     <string name="activity_personagem">Personagem</string>
-    <string name="nome_do_personagem">Nome</string>
+    <string name="nome_do_personagem">Nome do personagem</string>
     <string name="imagem_do_personagem">Imagem do personagem</string>
     <string name="descricao_do_personagem">Descrição do personagem</string>
     <string name="sem_descricao">Sem descrição.</string>
+    <string name="botao_hq">Ver HQ mais cara</string>
+    <string name="nome_da_hq">Nome da HQ</string>
+    <string name="imagem_da_hq">Imagem da HQ</string>
+    <string name="descricao_da_hq">Descrição da HQ</string>
+    <string name="preco_hq">Preço da HQ</string>
 </resources>

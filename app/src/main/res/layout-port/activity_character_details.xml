@@ -10,54 +10,45 @@
     <ImageView
         android:id="@+id/imageViewPersonagem"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/imagem_do_personagem"
-        app:layout_constraintBottom_toTopOf="@+id/buttonHQ"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDescricaoPersonagem"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="0.9"
-        app:srcCompat="@drawable/marvel_logo"/>
+        app:srcCompat="@drawable/marvel_logo" />
 
     <TextView
         android:id="@+id/textViewDescricaoPersonagem"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:text="@string/descricao_do_personagem"
         app:layout_constraintBottom_toTopOf="@+id/buttonHQ"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@+id/imageViewPersonagem"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="0.9"
-        android:text="@string/descricao_do_personagem"
-        android:maxLines="3"
-        android:ellipsize="end"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPersonagem" />
 
     <Button
         android:id="@+id/buttonHQ"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/botao_hq"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPersonagem"
-        app:layout_constraintVertical_weight="0.1" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
