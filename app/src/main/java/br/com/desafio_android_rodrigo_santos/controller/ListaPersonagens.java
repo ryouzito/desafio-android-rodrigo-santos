@@ -23,6 +23,10 @@ public class ListaPersonagens {
     private Context context;
     private ArrayList<MarvelCharacter> alMarvelCharacters = new ArrayList<>();
     private GridView gvListaPersonagens;
+    private int limit = 20;
+    private int offset = 0;
+    private int total;
+    private int count;
 
     public void exibeListaPersonagens(Context context, GridView gvListaPersonagens) {
         this.context = context;
@@ -47,8 +51,6 @@ public class ListaPersonagens {
             try {
                 //chama a api e varre o json ate encontrar o campo results
                 String path = "/characters";
-                String limit = "20";
-                String offset = "0";
 
                 response = WebService.getDados(path, parametrosUrl.getTimestamp(),
                         parametrosUrl.getChavePublica(), parametrosUrl.getHash(), limit, offset);

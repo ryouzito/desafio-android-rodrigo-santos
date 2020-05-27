@@ -2,7 +2,6 @@ package br.com.desafio_android_rodrigo_santos.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -13,8 +12,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.controller.ExibeHQ;
-import br.com.desafio_android_rodrigo_santos.model.CharacterComic;
 
 public class ComicDetails extends AppCompatActivity {
 
@@ -24,14 +21,14 @@ public class ComicDetails extends AppCompatActivity {
         setContentView(R.layout.activity_comic_details);
 
         Intent intent = getIntent();
-        String nomeDoPersonagem = "Captain America";
+        String nomeDoPersonagem = intent.getStringExtra("nomePersonagem");
         String nomeHQ = intent.getStringExtra("nomeHQ");
         String descricaoHQ = intent.getStringExtra("descricaoHQ");
         String pathImagemHQ = intent.getStringExtra("imagemHQ");
         String precoHQ = "$ " + intent.getDoubleExtra("precoHQ", 0.00);
 
         //define o titulo da ActionBar como o nome do personagem
-        Objects.requireNonNull(getSupportActionBar()).setTitle(nomeDoPersonagem);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(this.getString(R.string.hq_de) + nomeDoPersonagem);
 
         TextView tvNomeHQ = findViewById(R.id.textViewTituloHQ);
         tvNomeHQ.setText(nomeHQ);

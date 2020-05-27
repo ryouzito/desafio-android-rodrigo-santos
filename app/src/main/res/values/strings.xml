@@ -6,8 +6,11 @@
     <string name="descricao_do_personagem">Descrição do personagem</string>
     <string name="sem_descricao">Sem descrição.</string>
     <string name="botao_hq">Ver HQ mais cara</string>
+    <string name="hq_de">HQ com </string>
     <string name="nome_da_hq">Nome da HQ</string>
     <string name="imagem_da_hq">Imagem da HQ</string>
     <string name="descricao_da_hq">Descrição da HQ</string>
     <string name="preco_hq">Preço da HQ</string>
+    <string name="buscando_hq">Buscando HQ</string>
+    <string name="aguarde">Aguarde…</string>
 </resources>

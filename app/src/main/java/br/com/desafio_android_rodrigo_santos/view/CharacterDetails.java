@@ -21,6 +21,8 @@ import br.com.desafio_android_rodrigo_santos.model.CharacterComic;
 public class CharacterDetails extends AppCompatActivity {
 
     private Context context = this;
+    private int id;
+    private String nome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class CharacterDetails extends AppCompatActivity {
 
         //obtem os dados do personagem enviados pelo adapter
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        String nome = intent.getStringExtra("nome");
+        id = intent.getIntExtra("id", 0);
+        nome = intent.getStringExtra("nome");
         String descricao = intent.getStringExtra("descricao");
         String imagem = intent.getStringExtra("imagem");
         Button btnHQ = findViewById(R.id.buttonHQ);
@@ -58,7 +60,7 @@ public class CharacterDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ExibeHQ exibeHQ = new ExibeHQ();
-                exibeHQ.exibeHqDoPersonagem(context);
+                exibeHQ.exibeHqDoPersonagem(context, id, nome);
             }
         });
     }
@@ -66,6 +68,7 @@ public class CharacterDetails extends AppCompatActivity {
     public void exibeHQ(Context context, CharacterComic characterComic) {
         Intent intent = new Intent(context, ComicDetails.class);
         intent.putExtra("id", characterComic.getId());
+        intent.putExtra("nomePersonagem", characterComic.getNomePersonagem());
         intent.putExtra("nomeHQ", characterComic.getNomeHQ());
         intent.putExtra("descricaoHQ", characterComic.getDescricaoHQ());
         intent.putExtra("imagemHQ", characterComic.getPathImageHQ());

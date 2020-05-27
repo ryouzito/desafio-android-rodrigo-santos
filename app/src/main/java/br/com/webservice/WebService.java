@@ -14,7 +14,7 @@ import okhttp3.Response;
 
 public class WebService {
 
-    public static Response getDados(String path, String timestamp, String chavePublica, String hash, String limit, String offset) throws IOException {
+    public static Response getDados(String path, String timestamp, String chavePublica, String hash, int limit, int offset) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         String url = "https://gateway.marvel.com:443/v1/public";
