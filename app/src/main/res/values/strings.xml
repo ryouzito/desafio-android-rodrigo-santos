@@ -12,5 +12,12 @@
     <string name="descricao_da_hq">Descrição da HQ</string>
     <string name="preco_hq">Preço da HQ</string>
     <string name="buscando_hq">Buscando HQ</string>
+    <string name="buscando_personagens">Buscando personagens</string>
     <string name="aguarde">Aguarde…</string>
+    <string name="proximo">Próximo</string>
+    <string name="anterior">Anterior</string>
+    <string name="sem_conexao">Sem conexão</string>
+    <string name="verifique_internet">Verifique o acesso à internet.</string>
+    <string name="tentar_novamente">Tentar novamente</string>
+    <string name="personagem_sem_hq">Personagem sem HQ</string>
 </resources>

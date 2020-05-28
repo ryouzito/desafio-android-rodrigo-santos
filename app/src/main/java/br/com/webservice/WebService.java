@@ -1,5 +1,8 @@
 package br.com.webservice;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,5 +62,13 @@ public class WebService {
         }
 
         return null;
+    }
+
+    //checa conexao
+    public boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        assert cm != null;
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

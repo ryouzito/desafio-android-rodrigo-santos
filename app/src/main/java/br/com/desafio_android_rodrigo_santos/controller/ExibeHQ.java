@@ -32,13 +32,17 @@ public class ExibeHQ {
     private String nomePersonagem;
     private CharacterComic characterComic;
     private ArrayList<CharacterComic> listaDeHqs = new ArrayList<>();
-    private int total;
+    private WebService parametros = new WebService();
 
     public void exibeHqDoPersonagem(Context context, int id, String nomePersonagem) {
         this.context = context;
         this.id = id;
         this.nomePersonagem = nomePersonagem;
-        new BuscaHQAsyncTask().execute();
+
+        if (!parametros.isNetworkConnected(context))
+            Dialog(context.getString(R.string.sem_conexao), context.getString(R.string.verifique_internet));
+        else
+            new BuscaHQAsyncTask().execute();
     }
 
     //asynctask para listagem da HQ do personagem selecionado
@@ -54,8 +58,6 @@ public class ExibeHQ {
         String imagePath = "";
         Double precoHQ;
         JSONArray jsonArray;
-
-        WebService parametros = new WebService();
         ParametrosUrl parametrosUrl = parametros.geraParametrosUrl();
 
         @Override
@@ -72,6 +74,7 @@ public class ExibeHQ {
                 String path = "/characters/" + id + "/comics";
                 int limit = 100;
                 int offset = 0;
+                int total;
 
                 //repete a busca ate encontrar todos os resultados, respeitando o limite maximo por busca
                 do {
@@ -120,7 +123,7 @@ public class ExibeHQ {
             //interrompe o fluxo caso o personagem nao possua hq na lista
             if (jsonArray.length() <= 0) {
                 dialog.dismiss();
-                personagemSemHQ();
+                Dialog(context.getString(R.string.personagem_sem_hq), "");
             }
 
             Collections.sort(listaDeHqs, new Comparator<CharacterComic>() {
@@ -142,14 +145,28 @@ public class ExibeHQ {
     }
 
     //exibe um dialog informando que o personagem nao possui hq
-    private void personagemSemHQ() {
+    private void Dialog(String titulo, String mensagem) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Este personagem não possui HQ")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        builder.setTitle(titulo);
+        builder.setMessage(mensagem);
 
-                    }
-                });
+        //altera o botao dependendo do contexto
+        if (parametros.isNetworkConnected(context)) {
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+        }
+        else {
+            builder.setPositiveButton(context.getString(R.string.tentar_novamente), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    exibeHqDoPersonagem(context, id, nomePersonagem);
+                }
+            });
+        }
+
+        builder.setCancelable(false);
         builder.create();
         builder.show();
     }
