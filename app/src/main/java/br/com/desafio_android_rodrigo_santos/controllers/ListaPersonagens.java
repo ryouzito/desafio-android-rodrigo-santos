@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.controller;
+package br.com.desafio_android_rodrigo_santos.controllers;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -19,17 +19,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.model.MarvelCharacter;
-import br.com.desafio_android_rodrigo_santos.model.ParametrosUrl;
-import br.com.desafio_android_rodrigo_santos.view.ActivityCharacters;
-import br.com.webservice.WebService;
+import br.com.desafio_android_rodrigo_santos.models.MarvelCharacter;
+import br.com.desafio_android_rodrigo_santos.models.ParametrosUrl;
+import br.com.desafio_android_rodrigo_santos.views.ActivityCharacters;
+import br.com.desafio_android_rodrigo_santos.webservice.WebService;
 import okhttp3.Response;
 
 public class ListaPersonagens {
 
     private Context context;
     private ArrayList<MarvelCharacter> alMarvelCharacters = new ArrayList<>();
-    private WebService parametros = new WebService();
+    private WebService parametros;
     private ProgressDialog dialog;
     private GridView gvListaPersonagens;
     private int offset = 0;
@@ -41,10 +41,11 @@ public class ListaPersonagens {
         this.gvListaPersonagens = gvListaPersonagens;
         this.offset = offset;
         this.dialog = new ProgressDialog(context);
+        this.parametros = new WebService(context);
         alMarvelCharacters.clear();
 
-        if (!parametros.isNetworkConnected(context))
-            semConexaoDialog();
+        if (!parametros.isNetworkConnected())
+            Dialog(context.getString(R.string.sem_conexao), context.getString(R.string.tentar_novamente));
         else
             new ListaPersonagensAsyncTask().execute();
     }
@@ -78,23 +79,29 @@ public class ListaPersonagens {
                 response = WebService.getDados(path, parametrosUrl.getTimestamp(),
                         parametrosUrl.getChavePublica(), parametrosUrl.getHash(), limit, offset);
                 String dados = Objects.requireNonNull(response.body()).string();
-                JSONObject jsonObjectContagem = new JSONObject(dados).getJSONObject("data");
-                total = jsonObjectContagem.getInt("total");
-                contagem += jsonObjectContagem.getInt("count");
-                JSONArray jsonArray = new JSONObject(dados).getJSONObject("data").getJSONArray("results");
 
-                //para cada posicao no campo results, cria um objeto MarvelCharacter e o adiciona a uma lista
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                //se houver um campo "data", a busca ocorreu corretamente
+                if (dados.contains("data")) {
+                    JSONObject jsonObjectContagem = new JSONObject(dados).getJSONObject("data");
+                    total = jsonObjectContagem.getInt("total");
+                    contagem += jsonObjectContagem.getInt("count");
+                    JSONArray jsonArray = new JSONObject(dados).getJSONObject("data").getJSONArray("results");
 
-                    idDoPersonagem = jsonObject.getInt("id");
-                    nomeDoPersonagem = jsonObject.getString("name");
-                    descricaoDoPersonagem = jsonObject.getString("description");
-                    JSONObject jsonObjectImagem = jsonObject.getJSONObject("thumbnail");
-                    imagePath = jsonObjectImagem.getString("path") + "." + jsonObjectImagem.getString("extension");
+                    //para cada posicao no campo results, cria um objeto MarvelCharacter e o adiciona a uma lista
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                    alMarvelCharacters.add(new MarvelCharacter(idDoPersonagem, nomeDoPersonagem, descricaoDoPersonagem, imagePath));
+                        idDoPersonagem = jsonObject.getInt("id");
+                        nomeDoPersonagem = jsonObject.getString("name");
+                        descricaoDoPersonagem = jsonObject.getString("description");
+                        JSONObject jsonObjectImagem = jsonObject.getJSONObject("thumbnail");
+                        imagePath = jsonObjectImagem.getString("path") + "." + jsonObjectImagem.getString("extension");
+
+                        alMarvelCharacters.add(new MarvelCharacter(idDoPersonagem, nomeDoPersonagem, descricaoDoPersonagem, imagePath));
+                    }
                 }
+                //caso nao haja um campo data, houve um erro na chamada da api
+                else return null;
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -104,6 +111,10 @@ public class ListaPersonagens {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
+
+            //response é nulo se nao houver campo data, significando erro na chamada da api
+            if (response == null)
+                Dialog(context.getString(R.string.erro_api_titulo), context.getString(R.string.erro_api_mensagem));
 
             /* chama o adapter que trata o gridview, passando o conteudo da lista */
             if (dialog.isShowing()) {
@@ -123,15 +134,28 @@ public class ListaPersonagens {
         }
     }
 
-    private void semConexaoDialog() {
+    //dialog usado em contextos de erro
+    private void Dialog(String titulo, String mensagem) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(context.getString(R.string.sem_conexao));
-        builder.setMessage(context.getString(R.string.verifique_internet))
-                .setPositiveButton(context.getString(R.string.tentar_novamente), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        exibeListaPersonagens(context, gvListaPersonagens, offset);
-                    }
-                });
+        builder.setTitle(titulo);
+        builder.setMessage(mensagem);
+
+        //altera o botao dependendo do contexto
+        if (parametros.isNetworkConnected()) {
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+        }
+        else {
+            builder.setPositiveButton(context.getString(R.string.tentar_novamente), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    exibeListaPersonagens(context, gvListaPersonagens, offset);
+                }
+            });
+        }
+
         builder.setCancelable(false);
         builder.create();
         builder.show();

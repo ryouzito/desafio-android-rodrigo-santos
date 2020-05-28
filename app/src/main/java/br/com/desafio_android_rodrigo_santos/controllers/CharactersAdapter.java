@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.controller;
+package br.com.desafio_android_rodrigo_santos.controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.model.MarvelCharacter;
-import br.com.desafio_android_rodrigo_santos.view.CharacterDetails;
+import br.com.desafio_android_rodrigo_santos.models.MarvelCharacter;
+import br.com.desafio_android_rodrigo_santos.views.CharacterDetails;
 
 public class CharactersAdapter extends BaseAdapter {
 

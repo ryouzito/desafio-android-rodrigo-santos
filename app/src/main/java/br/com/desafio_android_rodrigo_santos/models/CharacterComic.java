@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.model;
+package br.com.desafio_android_rodrigo_santos.models;
 
 public class CharacterComic {
 

@@ -20,4 +20,6 @@
     <string name="verifique_internet">Verifique o acesso à internet.</string>
     <string name="tentar_novamente">Tentar novamente</string>
     <string name="personagem_sem_hq">Personagem sem HQ</string>
+    <string name="erro_api_titulo">Não foi possível realizar a busca</string>
+    <string name="erro_api_mensagem">Ocorreu um erro de acesso aos dados. Comunique o desenvolvedor.</string>
 </resources>

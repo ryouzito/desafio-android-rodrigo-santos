@@ -14,12 +14,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.ComicDetails" />
+        <activity android:name=".views.ComicDetails" />
         <activity
-            android:name=".view.CharacterDetails"
+            android:name=".views.CharacterDetails"
             android:label="@string/activity_personagem" />
-        <activity android:name=".view.ActivityCharacters" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".views.ActivityCharacters" />
+        <activity android:name=".views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.view;
+package br.com.desafio_android_rodrigo_santos.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,8 +15,8 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.controller.ExibeHQ;
-import br.com.desafio_android_rodrigo_santos.model.CharacterComic;
+import br.com.desafio_android_rodrigo_santos.controllers.ExibeHQ;
+import br.com.desafio_android_rodrigo_santos.models.CharacterComic;
 
 public class CharacterDetails extends AppCompatActivity {
 

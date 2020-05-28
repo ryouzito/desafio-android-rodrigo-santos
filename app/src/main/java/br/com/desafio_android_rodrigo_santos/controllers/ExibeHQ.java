@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.controller;
+package br.com.desafio_android_rodrigo_santos.controllers;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -19,10 +19,10 @@ import java.util.Comparator;
 import java.util.Objects;
 
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.model.CharacterComic;
-import br.com.desafio_android_rodrigo_santos.model.ParametrosUrl;
-import br.com.desafio_android_rodrigo_santos.view.CharacterDetails;
-import br.com.webservice.WebService;
+import br.com.desafio_android_rodrigo_santos.models.CharacterComic;
+import br.com.desafio_android_rodrigo_santos.models.ParametrosUrl;
+import br.com.desafio_android_rodrigo_santos.views.CharacterDetails;
+import br.com.desafio_android_rodrigo_santos.webservice.WebService;
 import okhttp3.Response;
 
 public class ExibeHQ {
@@ -30,16 +30,16 @@ public class ExibeHQ {
     private Context context;
     private int id;
     private String nomePersonagem;
-    private CharacterComic characterComic;
     private ArrayList<CharacterComic> listaDeHqs = new ArrayList<>();
-    private WebService parametros = new WebService();
+    private WebService parametros;
 
     public void exibeHqDoPersonagem(Context context, int id, String nomePersonagem) {
         this.context = context;
         this.id = id;
         this.nomePersonagem = nomePersonagem;
+        this.parametros = new WebService(context);
 
-        if (!parametros.isNetworkConnected(context))
+        if (!parametros.isNetworkConnected())
             Dialog(context.getString(R.string.sem_conexao), context.getString(R.string.verifique_internet));
         else
             new BuscaHQAsyncTask().execute();
@@ -137,7 +137,7 @@ public class ExibeHQ {
                 dialog.dismiss();
 
                 //cria um objeto contendo a hq mais cara e envia de volta para o metodo que chama a intent
-                characterComic = listaDeHqs.get(listaDeHqs.size()-1);
+                CharacterComic characterComic = listaDeHqs.get(listaDeHqs.size() - 1);
                 CharacterDetails characterDetails = new CharacterDetails();
                 characterDetails.exibeHQ(context, characterComic);
             }
@@ -151,7 +151,7 @@ public class ExibeHQ {
         builder.setMessage(mensagem);
 
         //altera o botao dependendo do contexto
-        if (parametros.isNetworkConnected(context)) {
+        if (parametros.isNetworkConnected()) {
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 

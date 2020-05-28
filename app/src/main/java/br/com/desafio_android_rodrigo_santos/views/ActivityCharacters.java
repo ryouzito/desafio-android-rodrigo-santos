@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.view;
+package br.com.desafio_android_rodrigo_santos.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import br.com.desafio_android_rodrigo_santos.R;
-import br.com.desafio_android_rodrigo_santos.controller.ListaPersonagens;
+import br.com.desafio_android_rodrigo_santos.controllers.ListaPersonagens;
 
 public class ActivityCharacters extends AppCompatActivity {
 

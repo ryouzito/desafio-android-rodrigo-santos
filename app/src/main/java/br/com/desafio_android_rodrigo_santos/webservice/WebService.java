@@ -1,4 +1,4 @@
-package br.com.webservice;
+package br.com.desafio_android_rodrigo_santos.webservice;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -10,12 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import br.com.desafio_android_rodrigo_santos.model.ParametrosUrl;
+import br.com.desafio_android_rodrigo_santos.BuildConfig;
+import br.com.desafio_android_rodrigo_santos.R;
+import br.com.desafio_android_rodrigo_santos.models.ParametrosUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class WebService {
+
+    private Context context;
+
+    public WebService(Context context) {
+        this.context = context;
+    }
 
     public static Response getDados(String path, String timestamp, String chavePublica, String hash, int limit, int offset) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -36,11 +44,7 @@ public class WebService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dataBrasil, new Locale("pt", "BR"));
         String timestamp = simpleDateFormat.format(new Date());
 
-        //insira suas chaves da API Marvel nos dois campos abaixo
-        String chavePrivada = "";
-        String chavePublica = "";
-
-        String hash = timestamp + chavePrivada + chavePublica;
+        String hash = timestamp + BuildConfig.PRIVATE_KEY + BuildConfig.PUBLIC_KEY;
 
         //cria o hash que a api espera receber
         try {
@@ -56,7 +60,7 @@ public class WebService {
                 hexString.append(h);
             }
             hash = hexString.toString();
-            return new ParametrosUrl(timestamp, chavePublica, hash);
+            return new ParametrosUrl(timestamp, BuildConfig.PUBLIC_KEY, hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -65,7 +69,7 @@ public class WebService {
     }
 
     //checa conexao
-    public boolean isNetworkConnected(Context context) {
+    public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         assert cm != null;

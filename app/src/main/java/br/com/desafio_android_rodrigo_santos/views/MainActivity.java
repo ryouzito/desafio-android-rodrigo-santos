@@ -1,4 +1,4 @@
-package br.com.desafio_android_rodrigo_santos.view;
+package br.com.desafio_android_rodrigo_santos.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
